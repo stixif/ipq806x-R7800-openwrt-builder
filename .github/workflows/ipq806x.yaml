@@ -13,8 +13,8 @@ jobs:
         run: |
           curl -sL "https://api.github.com/repos/$REMOTE_REPOSITORY/commits?sha=$REMOTE_BRANCH&per_page=1" | jq -r '[.[]][0]' > commit.json
         env:
-          REMOTE_REPOSITORY: robimarko/openwrt
-          REMOTE_BRANCH: ipq807x-5.15
+          REMOTE_REPOSITORY: openwrt/openwrt
+          REMOTE_BRANCH: master
       - name: Calculate hours since last commit
         id: calc
         run: |
@@ -40,28 +40,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: robimarko/openwrt
-          ref: ipq807x-5.15
+          repository: openwrt/openwrt
+          ref: master
       - name: Update and install feeds
         run: |
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-      - name: Generate config for IPQ807x Generic
+      - name: Generate config for IPQ806x Generic
         run: |
-          echo "CONFIG_TARGET_ipq807x=y" > .config
-          echo "CONFIG_TARGET_ipq807x_generic=y\n" >> .config
-          echo "CONFIG_TARGET_ipq807x_generic_DEVICE_xiaomi_ax3600=y" >> .config
-          echo "CONFIG_TARGET_PROFILE=DEVICE_xiaomi_ax3600" >> .config
-          echo "CONFIG_TARGET_MULTI_PROFILE=y\n" >> .config
-          echo "CONFIG_TARGET_ALL_PROFILES=y\n" >> .config
+          echo "CONFIG_TARGET_ipq806x=y" > .config
+          echo "CONFIG_TARGET_ipq806x_generic=y" >> .config
+          echo "CONFIG_TARGET_ipq806x_generic_DEVICE_netgear_r7800=y" >> .config
+          echo 'CONFIG_TARGET_PROFILE="DEVICE_netgear_r7800"' >> .config
+          #echo "CONFIG_TARGET_MULTI_PROFILE=y\n" >> .config
+          #echo "CONFIG_TARGET_ALL_PROFILES=y\n" >> .config
           echo "CONFIG_TARGET_PER_DEVICE_ROOTFS=y\n" >> .config
           echo "CONFIG_TARGET_ROOTFS_INITRAMFS=y\n" >> .config
           echo "CONFIG_TARGET_INITRAMFS_COMPRESSION_ZSTD=y\n" >> .config
           echo "CONFIG_PACKAGE_luci=y\n" >> .config
-          echo "CONFIG_PACKAGE_kmod-qca-nss-dp=y\n" >> .config
           
-          # TEST
-          echo "CONFIG_PACKAGE_qca-ssdk-shell=y" >> .config
+          # wpad full
+          echo "CONFIG_PACKAGE_curl=y" >> .config
+          echo "CONFIG_PACKAGE_wpad-mini=n" >> .config
+          echo "CONFIG_PACKAGE_wpad-basic-wolfssl=n" >> .config
+          echo "CONFIG_PACKAGE_wpad-wolfssl=y" >> .config
+          
+          #test
+          echo "CONFIG_DEFAULT_kmod-usb-dwc3-qcom=y" >> .config
+          echo "CONFIG_DEFAULT_kmod-usb-ledtrig-usbport=y" >> .config
+          echo "CONFIG_DEFAULT_kmod-usb-ohci=y" >> .config
+          echo "CONFIG_DEFAULT_kmod-usb2=y" >> .config
+          echo "CONFIG_DEFAULT_kmod-usb3=y" >> .config
           
           make defconfig
       - name: Enable WiFi on default config
@@ -86,12 +95,12 @@ jobs:
           make -j$(nproc) V=s || \
           make V=s
       - name: TAR output
-        run: tar -cvf ipq807xx-images.tar bin/targets/ipq807x/generic
+        run: tar -cvf ipq806xx-images.tar bin/targets/ipq806x/generic
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: ipq807x-images
-          path: ipq807xx-images.tar
+          name: ipq806x-images
+          path: ipq806xx-images.tar
   release:
     name: Upload artifacts as release
     needs: build
@@ -101,12 +110,12 @@ jobs:
       - name: Download the image artifacts
         uses: actions/download-artifact@v2
         with:
-          name: ipq807x-images
+          name: ipq806x-images
       - name: Extract the image artifacts
-        run: tar xf ipq807xx-images.tar
+        run: tar xf ipq806xx-images.tar
       - name: Extract version information from version.buildinfo
         run: >-
-          echo "BUILDINFO=$(cat bin/targets/ipq807x/generic/version.buildinfo)"
+          echo "BUILDINFO=$(cat bin/targets/ipq806x/generic/version.buildinfo)"
           >> $GITHUB_ENV
       - name: Create a release
         uses: marvinpinto/action-automatic-releases@latest
@@ -114,6 +123,6 @@ jobs:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           prerelease: true
           title: 'Updated prebuilt images (${{ env.BUILDINFO }})'
-          automatic_release_tag: ipq807x-latest@v4.3
-          files: bin/targets/ipq807x/generic/*
+          automatic_release_tag: ipq806x-latest@v1.0
+          files: bin/targets/ipq806x/generic/*
      
