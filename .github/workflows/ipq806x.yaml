@@ -1,4 +1,4 @@
-name: Build remote repo only if new commits were pushed
+name: ipq806x Build remote repo only if new commits were pushed
 on:
   workflow_dispatch:
   push:
