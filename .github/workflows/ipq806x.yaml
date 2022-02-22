@@ -101,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ipq806x-images
-          path: ipq806xx-images.tar
+          path: ipq806x-images.tar
   release:
     name: Upload artifacts as release
     needs: build
@@ -113,7 +113,7 @@ jobs:
         with:
           name: ipq806x-images
       - name: Extract the image artifacts
-        run: tar xf ipq806xx-images.tar
+        run: tar xf ipq806x-images.tar
       - name: Extract version information from version.buildinfo
         run: >-
           echo "BUILDINFO=$(cat bin/targets/ipq806x/generic/version.buildinfo)"
