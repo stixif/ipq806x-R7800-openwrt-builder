@@ -58,7 +58,23 @@ jobs:
           echo "CONFIG_TARGET_PER_DEVICE_ROOTFS=y\n" >> .config
           echo "CONFIG_TARGET_ROOTFS_INITRAMFS=y\n" >> .config
           echo "CONFIG_TARGET_INITRAMFS_COMPRESSION_ZSTD=y\n" >> .config
-          echo "CONFIG_PACKAGE_luci=y\n" >> .config
+
+          
+          echo "CONFIG_PACKAGE_cgi-io=y" >> .config
+          echo "CONFIG_PACKAGE_libiwinfo-lua=y" >> .config
+          echo "CONFIG_PACKAGE_liblua=y" >> .config
+          echo "CONFIG_PACKAGE_liblucihttp=y" >> .config
+          echo "CONFIG_PACKAGE_liblucihttp-lua=y" >> .config
+          echo "CONFIG_PACKAGE_libubus-lua=y" >> .config
+          echo "CONFIG_PACKAGE_lua=y" >> .config
+          echo "CONFIG_PACKAGE_px5g-wolfssl=y" >> .config
+          echo "CONFIG_PACKAGE_rpcd=y" >> .config
+          echo "CONFIG_PACKAGE_rpcd-mod-file=y" >> .config
+          echo "CONFIG_PACKAGE_rpcd-mod-iwinfo=y" >> .config
+          echo "CONFIG_PACKAGE_rpcd-mod-luci=y" >> .config
+          echo "CONFIG_PACKAGE_rpcd-mod-rrdns=y" >> .config
+          echo "CONFIG_PACKAGE_uhttpd=y" >> .config
+          echo "CONFIG_PACKAGE_uhttpd-mod-ubus=y" >> .config    
           
           # wpad full
           echo "CONFIG_PACKAGE_curl=y" >> .config
@@ -69,6 +85,43 @@ jobs:
           # wlan test
           echo "CONFIG_PACKAGE_dawn=y\n" >> .config
           echo "CONFIG_PACKAGE_luci-app-dawn=y\n" >> .config
+          
+          # services and tools
+          echo "CONFIG_PACKAGE_arp-scan=y" >> .config
+          echo "CONFIG_PACKAGE_bind-host=y" >> .config
+          echo "CONFIG_PACKAGE_findutils-xargs=y" >> .config
+          echo "CONFIG_PACKAGE_fping=y" >> .config
+          echo "CONFIG_PACKAGE_iputils-arping=y" >> .config
+          echo "CONFIG_PACKAGE_irqbalance=y" >> .config
+          echo "CONFIG_PACKAGE_iwinfo=y" >> .config
+          echo "CONFIG_PACKAGE_wget=y" >> .config
+          echo "CONFIG_PACKAGE_bmon=y" >> .config
+          echo "CONFIG_PACKAGE_iftop=y" >> .config
+          echo "CONFIG_PACKAGE_vnstat=y\n" >> .config
+          echo "CONFIG_PACKAGE_darkstat=y\n" >> .config
+          
+                   
+          # luci
+          echo "CONFIG_PACKAGE_luci=y" >> .config
+          echo "CONFIG_PACKAGE_luci-base=y" >> .config
+          echo "CONFIG_PACKAGE_luci-compat=y" >> .config
+          echo "CONFIG_PACKAGE_luci-theme-bootstrap=y" >> .config          
+          echo "CONFIG_PACKAGE_luci-mod-dashboard=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-vnstat=y" >> .config
+
+          echo "CONFIG_PACKAGE_luci-app-firewall=y" >> .config
+          echo "CONFIG_PACKAGE_luci-app-opkg=y" >> .config
+          echo "CONFIG_PACKAGE_luci-lib-base=y" >> .config
+          echo "CONFIG_PACKAGE_luci-lib-ip=y" >> .config
+          echo "CONFIG_PACKAGE_luci-lib-jsonc=y" >> .config
+          echo "CONFIG_PACKAGE_luci-lib-nixio=y" >> .config
+          echo "CONFIG_PACKAGE_luci-mod-admin-full=y" >> .config
+          echo "CONFIG_PACKAGE_luci-mod-network=y" >> .config
+          echo "CONFIG_PACKAGE_luci-mod-status=y" >> .config
+          echo "CONFIG_PACKAGE_luci-mod-system=y" >> .config
+          echo "CONFIG_PACKAGE_luci-proto-ipv6=y" >> .config
+          echo "CONFIG_PACKAGE_luci-proto-ppp=y" >> .config
+          echo "CONFIG_PACKAGE_luci-ssl=y" >> .config
           
           #test
           echo "CONFIG_DEFAULT_kmod-usb-dwc3-qcom=y" >> .config
