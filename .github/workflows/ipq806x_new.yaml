@@ -55,12 +55,6 @@ jobs:
           echo 'CONFIG_TARGET_PROFILE="DEVICE_netgear_r7800"' >> .config
           #echo "CONFIG_TARGET_MULTI_PROFILE=y\n" >> .config
           #echo "CONFIG_TARGET_ALL_PROFILES=y\n" >> .config
-																			   
-																		 
-																					   
-																								 
-																						  
-																									
           echo "CONFIG_TARGET_PER_DEVICE_ROOTFS=y" >> .config
           
           # Sonstiges
@@ -184,12 +178,12 @@ jobs:
           make -j$(nproc) V=s || \
           make V=s
       - name: TAR output
-        run: tar -cvf ipq806x-images_new.tar bin/targets/ipq806x/generic
+        run: tar -cvf ipq806xx-images_new.tar bin/targets/ipq806x/generic
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ipq806x-images_new
-          path: ipq806x-images_new.tar
+          path: ipq806xx-images_new.tar
   release:
     name: Upload artifacts as release
     needs: build
@@ -201,7 +195,7 @@ jobs:
         with:
           name: ipq806x-images_new
       - name: Extract the image artifacts
-        run: tar xf ipq806x-images_new.tar
+        run: tar xf ipq806xx-images_new.tar
       - name: Extract version information from version.buildinfo
         run: >-
           echo "BUILDINFO=$(cat bin/targets/ipq806x/generic/version.buildinfo)"
